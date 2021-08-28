@@ -25,7 +25,7 @@ function HashtagForm({
     setDelta(Date.now());
     let now = Date.now();
     if (now - delta < 1000) {
-      console.log('Prevent double enter!');
+      // console.log('Prevent double enter!');
       return true;
     }
     return false;
@@ -96,11 +96,11 @@ function HashtagForm({
     // }
     let str = event.target.value;
     if (str.slice(-1) === ' '){
-      console.log("There is a space in the string@!!!!!")
+      // console.log("There is a space in the string@!!!!!")
       str = str.slice(0, str.length - 1)
     }
-    console.log(str)
-    if (str.includes(' ')) console.log("str has space")
+    // console.log(str)
+    // if (str.includes(' ')) console.log("str has space")
     setInputValue(str);
   }
 
