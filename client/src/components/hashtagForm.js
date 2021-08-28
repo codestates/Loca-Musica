@@ -1,5 +1,5 @@
 import '../css/detail.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { notify } from "../actions/index";
 import ChoiceModal from "./choiceModal";
@@ -17,11 +17,15 @@ function HashtagForm({
   const [delta, setDelta] = useState(Date.now());
   const [isModal, setIsModal] = useState(false);
 
+  // useEffect(()=>{
+  //   // console.log(inputValue);
+  // })
+
   function isDoubleKeyDown() {
     setDelta(Date.now());
     let now = Date.now();
     if (now - delta < 1000) {
-      // console.log('Prevent double enter!');
+      console.log('Prevent double enter!');
       return true;
     }
     return false;
@@ -45,7 +49,7 @@ function HashtagForm({
     }
   }
 
-  function regiesterHashtag() {
+  function registerHashtag() {
     if (!isSignin) {
       setIsModal(true); // 로그인을 해야 작성가능(로그인 모달창이 열림)
       return;
@@ -85,30 +89,41 @@ function HashtagForm({
   }
 
   function handleChange(event) {
+    // console.log("1")
+    // if (event.key === 'Enter'){
+    //   event.preventDefault();
+    //   return;
+    // }
     let str = event.target.value;
-
-    if (event.key !== 'Enter' && str.slice(-1) === ' '){
+    if (str.slice(-1) === ' '){
+      console.log("There is a space in the string@!!!!!")
       str = str.slice(0, str.length - 1)
     }
+    console.log(str)
+    if (str.includes(' ')) console.log("str has space")
     setInputValue(str);
   }
 
-  function handleKeydown(event) {
-    if (event.key === ' ') {
-      event.preventDefault();
-      return;
-    }
-    if (event.key !== 'Enter') return;
-    event.preventDefault();
-    // console.log('Enter Pressed!');
-    if (isDoubleKeyDown()) return;
-    setInputValue('');
-    regiesterHashtag();
-  }
+  // function handleKeydown(event) {
+  //   // if (event.key === ' '){
+  //   //   event.preventDefault();
+  //   //   return;
+  //   // }
+
+  //   // if (event.key === 'Enter'){
+  //   //   event.preventDefault();
+  //   //   if (isDoubleKeyDown()) return;
+  //   //   let arrowEvent = new KeyboardEvent('keydown', {key: 'arrowDown'});
+  //   //   let element = document.querySelector('#inputHashtag')
+  //   //   element.dispatchEvent(arrowEvent);
+  //   //   registerHashtag();
+  //   //   setInputValue('');
+  //   // }
+  // }
 
   function handleClick(event) {
     event.preventDefault();
-    regiesterHashtag()
+    registerHashtag()
   }
 
   return (
@@ -121,7 +136,7 @@ function HashtagForm({
           placeholder='해시태그는공백없이7자이하로입력해야등록이됩니다!'
           value={inputValue}
           onChange={handleChange}
-          onKeyDown={handleKeydown}
+          // onKeyDown={handleKeydown}
           autoComplete='off'
         />
         <button id='btnHashtag' onClick={handleClick}>
